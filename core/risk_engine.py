@@ -1,23 +1,17 @@
-def calculate_risk(intel):
+def correlate_data(intel):
 
-    score = 0
+    findings = []
 
-    vt = intel["virustotal"]
-    abuse = intel["abuseipdb"]
+    if intel["virustotal"]["detections"] > 0:
+        findings.append("Detected by antivirus engines")
 
-    if vt["detections"] > 0:
-        score += vt["detections"] * 10
+    if intel["abuseipdb"]["reports"] > 0:
+        findings.append("IP reported for abuse")
 
-    if abuse["reports"] > 0:
-        score += abuse["reports"] * 2
+    if intel["shodan"]["open_ports"]:
+        findings.append("Exposed services detected")
 
-    if score >= 80:
-        return "CRITICAL"
+    if intel["greynoise"]["classification"] == "malicious":
+        findings.append("Known malicious internet scanner")
 
-    if score >= 50:
-        return "HIGH"
-
-    if score >= 20:
-        return "MEDIUM"
-
-    return "LOW"
+    return findings
