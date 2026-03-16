@@ -1,23 +1,23 @@
-def calculate_risk(data):
+def calculate_risk(intel):
 
     score = 0
 
-    vt = data["virustotal"]
-    abuse = data["abuseipdb"]
+    vt = intel["virustotal"]
+    abuse = intel["abuseipdb"]
 
-    if vt["detections"] > 5:
-        score += 50
+    if vt["detections"] > 0:
+        score += vt["detections"] * 10
 
-    if abuse["reports"] > 10:
-        score += 30
+    if abuse["reports"] > 0:
+        score += abuse["reports"] * 2
 
-    if score > 70:
+    if score >= 80:
         return "CRITICAL"
 
-    if score > 40:
+    if score >= 50:
         return "HIGH"
 
-    if score > 20:
+    if score >= 20:
         return "MEDIUM"
 
     return "LOW"
