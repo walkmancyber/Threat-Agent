@@ -1,7 +1,7 @@
 import sys
 
-from core.investigation_engine import run_investigation
 from utils.validators import validate_target
+from core.investigation_engine import run_investigation
 from utils.reporter import print_report
 
 
@@ -14,7 +14,7 @@ def main():
     target = sys.argv[1]
 
     if not validate_target(target):
-        print("Invalid target format")
+        print("Invalid target")
         sys.exit(1)
 
     result = run_investigation(target)
