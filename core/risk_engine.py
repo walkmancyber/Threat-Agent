@@ -1,4 +1,4 @@
-def correlate_data(intel):
+def calculate_risk(intel):
 
     findings = []
 

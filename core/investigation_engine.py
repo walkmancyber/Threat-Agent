@@ -7,8 +7,17 @@ from core.correlation_engine import correlate_data
 from core.risk_engine import calculate_risk
 from ai.llama_agent import llama_analysis
 
+"""
+Investigation Engine
+
+Main orchestrator responsible for running the threat intelligence
+investigation pipeline.
+"""
 
 def run_investigation(target):
+    """
+    Run the full investigation pipeline.
+    """
 
     print("[*] Collecting threat intelligence...")
 
