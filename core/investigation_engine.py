@@ -5,8 +5,11 @@ from modules.greynoise import greynoise_lookup
 
 from core.correlation_engine import correlate_data
 from core.risk_engine import calculate_risk
-from ai.llama_agent import llama_analysis
 from core.ioc_engine import discover_iocs
+from core.recursive_engine import recursive_investigation
+
+from ai.llama_agent import llama_analysis
+
 
 """
 Investigation Engine
@@ -44,11 +47,15 @@ def run_investigation(target):
     # IOC discovery
     discovered_iocs = discover_iocs(intel)
 
+    # Recursive investigation
+    recursive_results = recursive_investigation(discovered_iocs)
+
     return {
         "target": target,
         "intel": intel,
         "correlation": correlation,
         "risk": risk,
         "analysis": analysis,
-        "discovered_iocs": discovered_iocs
+        "discovered_iocs": discovered_iocs,
+        "recursive": recursive_results
     }
