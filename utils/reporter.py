@@ -22,3 +22,8 @@ def print_report(result):
 
     for ioc in result.get("discovered_iocs", []):
         print(f"- {ioc['type']}: {ioc['value']}")
+
+    print("\nRecursive Investigation:")
+
+    for target, data in result.get("recursive", {}).items():
+        print(f"- {target} (depth {data.get('depth')})")
