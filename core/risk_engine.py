@@ -1,17 +1,48 @@
+"""
+Risk Scoring Engine
+
+Calculates threat risk score based on multiple intelligence sources.
+"""
+
+
 def calculate_risk(intel):
 
-    findings = []
+    score = 0
 
-    if intel["virustotal"]["detections"] > 0:
-        findings.append("Detected by antivirus engines")
+    vt = intel.get("virustotal", {})
+    abuse = intel.get("abuseipdb", {})
+    shodan = intel.get("shodan", {})
+    greynoise = intel.get("greynoise", {})
 
-    if intel["abuseipdb"]["reports"] > 0:
-        findings.append("IP reported for abuse")
+    vt_detections = vt.get("detections", 0)
+    abuse_reports = abuse.get("reports", 0)
+    abuse_confidence = abuse.get("confidence", 0)
+    ports = shodan.get("open_ports", [])
+    gn_class = greynoise.get("classification")
 
-    if intel["shodan"]["open_ports"]:
-        findings.append("Exposed services detected")
+    # VirusTotal detections
+    score += vt_detections * 10
 
-    if intel["greynoise"]["classification"] == "malicious":
-        findings.append("Known malicious internet scanner")
+    # AbuseIPDB reports
+    score += abuse_reports * 2
 
-    return findings
+    # Abuse confidence
+    score += abuse_confidence * 0.5
+
+    # Exposed services
+    score += len(ports) * 3
+
+    # GreyNoise malicious scanner
+    if gn_class == "malicious":
+        score += 30
+
+    if score >= 90:
+        return "CRITICAL"
+
+    if score >= 60:
+        return "HIGH"
+
+    if score >= 30:
+        return "MEDIUM"
+
+    return "LOW"
