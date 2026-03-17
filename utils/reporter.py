@@ -1,3 +1,6 @@
+from unittest import result
+
+
 def print_report(result):
 
     print("\n=== Threat Intelligence Investigation ===\n")
@@ -14,3 +17,8 @@ def print_report(result):
     print("\nLLM Threat Analysis:\n")
 
     print(result["analysis"])
+
+    print("\nDiscovered IOCs:")
+
+    for ioc in result.get("discovered_iocs", []):
+        print(f"- {ioc['type']}: {ioc['value']}")
