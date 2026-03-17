@@ -1,22 +1,23 @@
-from unittest import result
-
-
 def print_report(result):
 
     print("\n=== Threat Intelligence Investigation ===\n")
 
     print(f"Target: {result['target']}\n")
 
-    print("Risk Score:", result["risk"])
+    print("Risk Score:", result.get("risk", "Unknown"))
 
     print("\nCorrelation Findings:")
 
-    for finding in result["correlation"]:
+    for finding in result.get("correlation", []):
         print("-", finding)
 
     print("\nLLM Threat Analysis:\n")
 
-    print(result["analysis"])
+    analysis = result.get("analysis")
+    if analysis:
+        print(analysis)
+    else:
+        print("No analysis generated.")
 
     print("\nDiscovered IOCs:")
 
