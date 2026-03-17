@@ -6,6 +6,7 @@ from modules.greynoise import greynoise_lookup
 from core.correlation_engine import correlate_data
 from core.risk_engine import calculate_risk
 from ai.llama_agent import llama_analysis
+from core.ioc_engine import discover_iocs
 
 """
 Investigation Engine
@@ -40,10 +41,14 @@ def run_investigation(target):
 
     analysis = llama_analysis(intel, risk)
 
+    # IOC discovery
+    discovered_iocs = discover_iocs(intel)
+
     return {
         "target": target,
         "intel": intel,
         "correlation": correlation,
         "risk": risk,
-        "analysis": analysis
+        "analysis": analysis,
+        "discovered_iocs": discovered_iocs
     }
